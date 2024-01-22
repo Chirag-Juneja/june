@@ -1,5 +1,6 @@
 from june.vector import Vector
 from collections import Counter
+import math
 
 def mean(v:Vector)->float:
     return sum(v)/len(v)
@@ -24,3 +25,19 @@ def mode(v:Vector)->float:
         if count == max_count:
             return x 
 
+def drange(v:Vector)->float:
+    return max(v)-min(v)
+
+def variance(v:Vector)->float:
+    n = len(v)
+    if n<2:
+        raise RuntimeError("Vector should have at least 2 elements.")
+    xs = mean(v)
+    deviations = [x-xs for x in v]
+    return Vector(deviations).magnitude()**2/(n-1)
+
+def standard_deviation(v:Vector)->float:
+    return math.sqrt(variance(v))
+
+def interquartile_range(v:Vector)->float:
+    return quantile(v,0.75)-quantile(v,0.25)

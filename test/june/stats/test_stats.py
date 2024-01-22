@@ -1,4 +1,6 @@
 import pytest
+import math
+import statistics
 from june import vector
 from june import stats
 
@@ -30,3 +32,26 @@ def test_mode():
     v = vector.Vector([1,1,2,2,3,4,5,6,7,8])
     assert stats.mode(v)==1.0
     assert stats.mode(v[1:])==2.0
+
+def test_range():
+    v = vector.Vector([3,4,5])
+    result =stats.drange(v)
+    assert result == 2.0
+
+def test_variance():
+    l = [1,1,2,2,3,4,5,6,7,8]
+    v = vector.Vector(l)
+    result = stats.variance(v)
+    assert round(result,5) == round(statistics.variance(l),5)
+
+def test_standard_deviation():
+    l = [1,1,2,2,3,4,5,6,7,8]
+    v = vector.Vector(l)
+    result = stats.standard_deviation(v)
+    assert round(result,5) == round(math.sqrt(statistics.variance(l)),5)
+
+def test_interquartile_range():
+    l = [1,2,3,4,5,6,7,8,9,10]
+    v= vector.Vector(l)
+    result = stats.interquartile_range(v)
+    assert result == 5
