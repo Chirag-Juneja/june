@@ -1,3 +1,4 @@
+from june import vector
 from june.vector import Vector
 from collections import Counter
 import math
@@ -41,3 +42,20 @@ def standard_deviation(v:Vector)->float:
 
 def interquartile_range(v:Vector)->float:
     return quantile(v,0.75)-quantile(v,0.25)
+
+def covariance(v:Vector,w:Vector)->float:
+    if len(v)!=len(w):
+        raise RuntimeError(f"Vector dimensions must match. Got {len(v)} and {len(w)}.")
+    if len(v)<2:
+        raise RuntimeError("Vector should have at least 2 elements.")
+    v_mean = mean(v)
+    w_mean = mean(w)
+    v_deviations,w_deviations = [x-v_mean for x in v],[x-w_mean for x in w]
+    return vector.dot(v_deviations,w_deviations)/(len(v)-1)
+
+def correlation(v:Vector,w:Vector)->float:
+    v_std = standard_deviation(v)
+    w_std = standard_deviation(w)
+    if w_std > 0 and v_std > 0:
+        return covariance(v,w)/v_std/w_std
+    return 0
